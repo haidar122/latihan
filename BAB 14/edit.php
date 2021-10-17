@@ -12,7 +12,7 @@ if (isset($_GET['kode'])) {
 }
 
 $query = "SELECT * FROM barang WHERE kode = '{$kode_barang}'";
-$result = mysqli_query($koneksi, $query);
+$result = mysqli_query($mysqli, $query);
 
 foreach ($result as $barang) {
 	$kode_barang = $barang["kode"];

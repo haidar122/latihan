@@ -1,27 +1,19 @@
 <?php
+include 'koneksi.php';
 
-require_once("koneksi.php");
+$mysqli = mysqli_query($mysqli, "SELECT max(kode) as kodeTerbesar FROM barang");
+$data = mysqli_fetch_array($mysqli);
+$kodeBarang = $data['kodeTerbesar'];
 
-$error = 0;
+$urutan = (int) substr($kodeBarang, 3, 3);
 
-if (isset($_GET['kode'])) {
-	$kode_barang = $_GET['kode'];
-}else{
-	echo "Barang Tidak ditemukan! <a href='index.php'>Kembali</a>";
-	exit();
-}
+$urutan++;
 
-$query = "SELECT * FROM barang WHERE kode = '{$kode_barang}'";
-$result = mysqli_query($koneksi, $query);
-
-foreach ($result as $barang) {
-	$kode_barang = $barang["kode"];
-	$nama_barang = $barang["nama_barang"];
-    $jumlah = $barang["jumlah"];
-	$harga = $barang["harga"];
-}
-
+$huruf = "BRG";
+$kodeBarang = $huruf . sprintf("%03s", $urutan);
 ?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -38,33 +30,31 @@ foreach ($result as $barang) {
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="col col-8 p-4 bg-light">
-                    <h2>Edit Barang</h2>
-                    <form method="post" action="action_edit.php">
+                <h2>Input Barang</h2>
+                    <form method="post" action="simpan.php">
                         <div class="form-group mb-2">
                             <label for="formGroupExampleInput">Kode Barang</label>
-                            <input type="text" class="form-control" name="kode" required="required" value="<?php echo $kode_barang ?>">
+                            <input type="text" class="form-control" name="kode" required="required" value="<?php echo $kodeBarang ?>">
                         </div>
                         <div class="form-group mb-2">
                             <label for="formGroupExampleInput2">Nama Barang</label>
-                            <input type="text" class="form-control" name="nama" required="required" value="<?php echo $nama_barang ?>">
+                            <input type="text" class="form-control" name="nama" required="required" placeholder="Nama">
                         </div>
                         <div class="form-group mb-2">
                             <label for="exampleFormControlSelect1">Jumlah</label>
-                            <select class="form-control" name="jumlah" required="required" value="<?php echo $jumlah ?>">
+                            <select class="form-control" name="jumlah" required="required">
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
                                 <option>4</option>
                                 <option>5</option>
                             </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="formGroupExampleInput">Harga</label>
-                            <input type="text" class="form-control" name="harga" required="required" value="<?php echo $harga ?>">
-                        </div>
-                        <div class="col-auto my-1">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
+                            <div class="form-group mb-2">
+                                <label for="formGroupExampleInput">Harga</label>
+                                <input type="text" class="form-control" name="harga" required="required" placeholder="harga">
+                            </div>
+                            <div class="col-auto my-1">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
                     <br>
                     <hr>
@@ -77,4 +67,3 @@ foreach ($result as $barang) {
         </div>
 
     </div>
-    

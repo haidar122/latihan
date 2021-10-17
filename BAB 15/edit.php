@@ -12,10 +12,11 @@ if (isset($_GET['kode'])) {
 }
 
 $query = "SELECT * FROM barang WHERE kode = '{$kode_barang}'";
-$result = mysqli_query($koneksi, $query);
+$result = mysqli_query($mysqli, $query);
 
 foreach ($result as $barang) {
 	$kode_barang = $barang["kode"];
+    $foto = $barang["foto"];
 	$nama_barang = $barang["nama_barang"];
     $jumlah = $barang["jumlah"];
 	$harga = $barang["harga"];
@@ -40,6 +41,17 @@ foreach ($result as $barang) {
                 <div class="col col-8 p-4 bg-light">
                     <h2>Edit Barang</h2>
                     <form method="post" action="action_edit.php">
+                    <?php if (!is_null($foto) && !empty($foto)) {  ?>
+						<div class="form-group mb-2">
+							<img src="<?=$foto?>" class="preview">
+							<a href="hapus_foto.php?kode=<?=$kode_barang?>">Hapus Foto</a>
+						</div>
+					<?php } ?>
+
+						<div class="form-group mb-2">
+							<label for="foto">Foto</label>
+							<input type="file" id="foto" name="foto" class="form-control">
+						</div>
                         <div class="form-group mb-2">
                             <label for="formGroupExampleInput">Kode Barang</label>
                             <input type="text" class="form-control" name="kode" required="required" value="<?php echo $kode_barang ?>">
