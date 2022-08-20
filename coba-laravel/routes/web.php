@@ -19,6 +19,9 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about');
 });
+Route::get('/halo', function(){
+    return view('halo', ["name" => "Programmer Pemula"]);
+});
 Route::get('/users', [UserController::class, 'index'])->name('list-user');
 Route::get('/users/profile', function(){
 
